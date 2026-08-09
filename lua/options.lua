@@ -8,4 +8,6 @@ vim.o.autoread = true
 vim.o.laststatus = 3
 vim.o.cmdheight = 0
 
-
+vim.o.shiftwidth = 2
+vim.o.expandtab = true
+vim.o.smarttab = false

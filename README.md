@@ -20,6 +20,7 @@ Create an alias to keep separate nvim configurations, e.g., `alias nv='NVIM_APPN
 - leader+e - Opens Netrw
 - leader+g - Opens ripgrep
 - leader+f - Opens :find with tab completion
+- :FindRefresh - Refreshes the cached file list for :find
 - leader+d - Diagnostics
 
 # Netrw

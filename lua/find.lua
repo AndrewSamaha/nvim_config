@@ -1,32 +1,41 @@
-local ignore_patterns = {
-	"node_modules",
-	"%.git",
-	"%.cache",
-	"dist",
-	"build",
-	"%.tmp",
-	"%.log",
+local files_by_cwd = {}
+
+local rg_files_command = {
+	"rg",
+	"--files",
+	"--hidden",
+	"--glob",
+	"!node_modules/**",
+	"--glob",
+	"!dist/**",
+	"--glob",
+	"!build/**",
+	"--glob",
+	"!.cache/**",
+	"--glob",
+	"!*.tmp",
+	"--glob",
+	"!*.log",
 }
 
-function _G.native_find(text, _)
-	local files = vim.fn.glob("**/*", true, true)
-	local result = {}
-	for _, f in ipairs(files) do
-		if vim.fn.isdirectory(f) == 0 then
-			local skip = false
-			for _, pat in ipairs(ignore_patterns) do
-				if f:match(pat) then
-					skip = true
-					break
-				end
-			end
-			if not skip then
-				result[#result + 1] = f
-			end
-		end
+local function files_for_current_directory()
+	local cwd = vim.fn.getcwd()
+	if not files_by_cwd[cwd] then
+		files_by_cwd[cwd] = vim.fn.systemlist(rg_files_command)
 	end
-	return vim.fn.matchfuzzy(result, text)
-end
-vim.opt.findfunc = "v:lua.native_find"
 
+	return files_by_cwd[cwd]
+end
+
+function _G.native_find(text, _)
+	local files = files_for_current_directory()
+	return text == "" and files or vim.fn.matchfuzzy(files, text)
+end
+
+vim.api.nvim_create_user_command("FindRefresh", function()
+	files_by_cwd[vim.fn.getcwd()] = nil
+	vim.notify("File finder cache cleared for the current directory")
+end, { desc = "Refresh the native :find file cache" })
+
+vim.opt.findfunc = "v:lua.native_find"
 vim.keymap.set("n", "<leader>f", ":find ", { silent = false })

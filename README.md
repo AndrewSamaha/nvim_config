@@ -9,7 +9,7 @@ Run the setup script in ./setup/install_deps_ubuntu.sh
 ## Manual Install
 1. Store new configuration files in a new folder under `~/.config/` named something like `nvim_native`.
 Create an alias to keep separate nvim configurations, e.g., `alias nv='NVIM_APPNAME=nvim_native nvim'`
-1. Install language servers for lua (lua_ls) and typescript (tsgo)
+1. Install language servers for lua (e.g., `brew install lua-language-server`)  and typescript (e.g., `npm i -g @typescript/native-preview`)
 
 # Features
 - Completions

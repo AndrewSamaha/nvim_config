@@ -1,0 +1,8 @@
+{
+  "plugins": {
+    "smear-cursor.nvim": {
+      "rev": "af2e5325760abbdc121ac5a963c8d8ceaa28552a",
+      "src": "https://github.com/sphamba/smear-cursor.nvim"
+    }
+  }
+}

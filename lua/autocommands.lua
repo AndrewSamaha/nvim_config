@@ -23,3 +23,11 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 	end,
 })
 
+-- Neovim 0.12 checks for external edits only at certain events. Check while idle
+-- too, so changes made by an agent appear in an unmodified buffer.
+if vim.g.external_change_check_timer then
+	vim.fn.timer_stop(vim.g.external_change_check_timer)
+end
+vim.g.external_change_check_timer = vim.fn.timer_start(2000, function()
+	vim.cmd.checktime()
+end, { ["repeat"] = -1 })

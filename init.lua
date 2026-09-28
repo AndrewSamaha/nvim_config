@@ -10,3 +10,9 @@ require("find")
 require("grep")
 require("autocommands")
 require("diagnostics")
+
+vim.pack.add({
+  "https://github.com/sphamba/smear-cursor.nvim",
+})
+require("smear_cursor").setup({})
+
